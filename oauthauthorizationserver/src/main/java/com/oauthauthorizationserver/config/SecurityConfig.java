@@ -1,6 +1,7 @@
 package com.oauthauthorizationserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,9 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource(name = "userService")
     private UserDetailsService userDetailsService;
-    @Autowired
-    private SecretKeyProvider keyProvider;
     
+    @Value("${config.oauth2.privateKey}")
+    private String privateKey;
+
+    @Value("${config.oauth2.publicKey}")
+    private String publicKey;
     
     @Override
     @Bean
@@ -76,13 +80,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        try {
-           // converter.setSigningKey(  );
-        	keyProvider.getPrivateKey();
-        } catch (URISyntaxException | KeyStoreException | NoSuchAlgorithmException | IOException | UnrecoverableKeyException | CertificateException e) {
-            e.printStackTrace();
-        }
-
+        System.out.println(privateKey);
+        
+        System.out.println("\n\n\n\n\n"+publicKey);
+        converter.setSigningKey(privateKey);
+        converter.setVerifierKey(publicKey);
+      
         return converter;
     }
     

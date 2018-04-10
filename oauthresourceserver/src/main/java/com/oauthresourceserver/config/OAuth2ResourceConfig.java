@@ -72,7 +72,7 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
 		return new DefaultAccessTokenConverter();
 	}*/
 	
-	 @Bean
+	//@Bean
 	    public JwtAccessTokenConverter accessTokenConverter() {
 	        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 	        try {
@@ -86,7 +86,7 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
 	        return converter;
 	    }
 	
-	@Bean
+	//@Bean
 	public RemoteTokenServices remoteTokenServices(final @Value("${auth.server.url}") String checkTokenUrl,
 			final @Value("${auth.server.clientId}") String clientId,
 			final @Value("${auth.server.clientsecret}") String clientSecret) {
